@@ -1,0 +1,62 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: bottomup-api
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GOOGLE_GENAI_USE_ENTERPRISE=${GOOGLE_GENAI_USE_ENTERPRISE:-0}
+    env_file:
+      - path: ./apps/api/.env
+        required: false
+      - path: ./.env
+        required: false
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - bottomup-network
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8080
+    container_name: bottomup-web
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    env_file:
+      - path: ./apps/web/.env
+        required: false
+      - path: ./.env
+        required: false
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => {if (r.statusCode < 400 || r.statusCode === 307 || r.statusCode === 308) process.exit(0); else process.exit(1);})"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - bottomup-network
+
+networks:
+  bottomup-network:
+    name: bottomup-network
+    driver: bridge
+

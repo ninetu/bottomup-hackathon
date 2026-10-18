@@ -1,0 +1,542 @@
+[
+  {
+    "TrainNo": "7",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "7:30",
+    "Endname": "เชียงใหม่",
+    "ArrTime": "17:50",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "8",
+    "StartName": "เชียงใหม่",
+    "DepTime": "7:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "17:40",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "18:40",
+    "Endname": "เชียงใหม่",
+    "ArrTime": "7:15",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "10",
+    "StartName": "เชียงใหม่",
+    "DepTime": "18:20",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "6:30",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "13",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "20:05",
+    "Endname": "เชียงใหม่",
+    "ArrTime": "08:45",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "14",
+    "StartName": "เชียงใหม่",
+    "DepTime": "17:05",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "5:55",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "51",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "22:30",
+    "Endname": "เชียงใหม่",
+    "ArrTime": "11:40",
+    "tname": "รถด่วน",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "52",
+    "StartName": "เชียงใหม่",
+    "DepTime": "15:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "",
+    "tname": "รถด่วน",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "102",
+    "StartName": "เชียงใหม่",
+    "DepTime": "6:25",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "20:05",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "107",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "20:45",
+    "Endname": "เด่นชัย",
+    "ArrTime": "05:25",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "108",
+    "StartName": "เด่นชัย",
+    "DepTime": "19:10",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "4:30",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "109",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "14:15",
+    "Endname": "เชียงใหม่",
+    "ArrTime": "4:00",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "111",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "7:50",
+    "Endname": "เด่นชัย",
+    "ArrTime": "16:50",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "112",
+    "StartName": "เด่นชัย",
+    "DepTime": "8:00",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "17:10",
+    "tname": "รถเร็ว",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9001",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "5:15",
+    "Endname": "อยุธยา",
+    "ArrTime": "6:30",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9002",
+    "StartName": "อยุธยา",
+    "DepTime": "6:50",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "8:05",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9003",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "9:05",
+    "Endname": "อยุธยา",
+    "ArrTime": "10:20",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9004",
+    "StartName": "อยุธยา",
+    "DepTime": "14:40",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "15:55",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9005",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "18:15",
+    "Endname": "อยุธยา",
+    "ArrTime": "19:30",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "9006",
+    "StartName": "อยุธยา",
+    "DepTime": "19:45",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "21:00",
+    "tname": "รถพิเศษชานเมือง",
+    "LineName": "สายเหนือ"
+  },
+  {
+    "TrainNo": "21",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "06:10",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "14:00",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "22",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "14:50",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "22:15",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "23",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "21:05",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "06:00",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "24",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "19:15",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "04:50",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "25",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "20:25",
+    "Endname": "หนองคาย",
+    "ArrTime": "06:25",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "26",
+    "StartName": "หนองคาย",
+    "DepTime": "19:40",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "05:30",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "71",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "10:35",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "19:35",
+    "tname": "รถด่วน",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "72",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "06:10",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "14:55",
+    "tname": "รถด่วน",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "75",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "08:45",
+    "Endname": "หนองคาย",
+    "ArrTime": "17:30",
+    "tname": "รถด่วน",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "76",
+    "StartName": "หนองคาย",
+    "DepTime": "06:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "15:20",
+    "tname": "รถด่วน",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "133",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "21:25",
+    "Endname": "เวียงจันทน์ (คำสะหวาด)",
+    "ArrTime": "09:05",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "134",
+    "StartName": "เวียงจันทน์ (คำสะหวาด)",
+    "DepTime": "18:25",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "07:20",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "135",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "07:10",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "18:00",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "136",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "07:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "139",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "19:40",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "05:40",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "140",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "20:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "141",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "23:05",
+    "Endname": "อุบลราชธานี",
+    "ArrTime": "10:05",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "142",
+    "StartName": "อุบลราชธานี",
+    "DepTime": "17:35",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "04:10",
+    "tname": "รถเร็ว",
+    "LineName": "สายตะวันออกเฉียงเหนือ"
+  },
+  {
+    "TrainNo": "31",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "16:50",
+    "Endname": "ชุมทางหาดใหญ่",
+    "ArrTime": "07:05",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "32",
+    "StartName": "ชุมทางหาดใหญ่",
+    "DepTime": "17:45",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "08:10",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "37",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "16:10",
+    "Endname": "สุไหงโก-ลก",
+    "ArrTime": "10:35",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "38",
+    "StartName": "สุไหงโก-ลก",
+    "DepTime": "14:15",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "09:05",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "39",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "22:50",
+    "Endname": "สุราษฎร์ธานี",
+    "ArrTime": "7:50",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "40",
+    "StartName": "สุราษฎร์ธานี",
+    "DepTime": "09:00",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "18:05",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "43",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "07:30",
+    "Endname": "สุราษฎร์ธานี",
+    "ArrTime": "16:20",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "44",
+    "StartName": "สุราษฎร์ธานี",
+    "DepTime": "18:25",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "3:45",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "45",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "16:10",
+    "Endname": "ปาดังเบซาร์",
+    "ArrTime": "07:59",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "46",
+    "StartName": "ปาดังเบซาร์",
+    "DepTime": "17:00",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "09:05",
+    "tname": "รถด่วนพิเศษ",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "83",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "18:50",
+    "Endname": "ตรัง",
+    "ArrTime": "08:15",
+    "tname": "รถด่วน",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "84",
+    "StartName": "ตรัง",
+    "DepTime": "17:00",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "07:05",
+    "tname": "รถด่วน",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "85",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "19:50",
+    "Endname": "นครศรีธรรมราช",
+    "ArrTime": "09:55",
+    "tname": "รถด่วน",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "86",
+    "StartName": "นครศรีธรรมราช",
+    "DepTime": "16:00",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "06:10",
+    "tname": "รถด่วน",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "167",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "20:30",
+    "Endname": "กันตัง",
+    "ArrTime": "11:25",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "168",
+    "StartName": "กันตัง",
+    "DepTime": "14:15",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "05:10",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "169",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "17:30",
+    "Endname": "ยะลา",
+    "ArrTime": "11:05",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "170",
+    "StartName": "ยะลา",
+    "DepTime": "16:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "10:50",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "171",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "15:10",
+    "Endname": "สุไหงโก-ลก",
+    "ArrTime": "10:10",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "172",
+    "StartName": "สุไหงโก-ลก",
+    "DepTime": "12:10",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "07:30",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "173",
+    "StartName": "กรุงเทพอภิวัฒน์",
+    "DepTime": "20:10",
+    "Endname": "นครศรีธรรมราช",
+    "ArrTime": "10:20",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  },
+  {
+    "TrainNo": "174",
+    "StartName": "นครศรีธรรมราช",
+    "DepTime": "16:30",
+    "Endname": "กรุงเทพอภิวัฒน์",
+    "ArrTime": "06:45",
+    "tname": "รถเร็ว",
+    "LineName": "สายใต้"
+  }
+]
