@@ -44,10 +44,10 @@ export function Header(props: HeaderProps) {
                     ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30"
                     : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30"
                 }`}
-                title={isBackendConnected ? "Connected to Assistant" : "Operating in Offline Mode"}
+                title={isBackendConnected ? "Connected to Cloud Run Assistant" : "Operating in Offline Fallback Mode"}
               >
                 {isBackendConnected ? <IconWifi size={10} /> : <IconWifiOff size={10} />}
-                <span>{isBackendConnected ? "Live" : "Offline"}</span>
+                <span>{isBackendConnected ? "Cloud Run" : "Offline"}</span>
               </div>
             </div>
             <p className="text-[11px] text-muted-foreground flex items-center gap-1 truncate">

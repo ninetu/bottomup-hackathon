@@ -9,7 +9,22 @@ runConfig:
 env:
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: thanarat-dev
+    availability:
+      - BUILD
+      - RUNTIME
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
     value: thanarat-dev.firebaseapp.com
+    availability:
+      - BUILD
+      - RUNTIME
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
     value: thanarat-dev.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+  # Backend API on Cloud Run
+  - variable: NEXT_PUBLIC_API_URL
+    value: https://bottomup-api-272801300023.asia-southeast1.run.app
+    availability:
+      - BUILD
+      - RUNTIME

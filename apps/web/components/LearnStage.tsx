@@ -2,17 +2,14 @@
 
 import React from "react";
 import {
-  IconCoin,
   IconSparkles,
   IconCalendarEvent,
   IconCheck,
   IconAlertTriangle,
-  IconCloudRain,
   IconArrowRight,
   IconThumbUp,
   IconBulb,
 } from "@tabler/icons-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LearnScreenData } from "@/lib/api";
 import { useMerchant } from "@/lib/MerchantContext";

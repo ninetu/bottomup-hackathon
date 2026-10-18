@@ -132,9 +132,9 @@ export function TimelineStage(props: TimelineStageProps) {
   };
 
   const quickPrompts = [
+    "วันนี้ฝนจะตกกี่โมง ถ้าลดงบเหลือ ฿3,000 จะเสี่ยงไหม?",
+    "What time will it rain today? If I cut spend to ฿3,000, what happens?",
     "Am I on pace to meet target?",
-    "Will rain hit my shop today?",
-    "Should I prepare another batch?",
     "How much should I spend tomorrow?",
   ];
 

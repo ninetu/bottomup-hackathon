@@ -9,6 +9,10 @@ import {
   IconClock,
   IconShieldCheck,
   IconCheck,
+  IconServer,
+  IconWifi,
+  IconWifiOff,
+  IconRefresh,
 } from "@tabler/icons-react";
 import {
   Dialog,
@@ -22,7 +26,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MerchantProfile } from "@/lib/api";
+import {
+  MerchantProfile,
+  getApiBaseUrl,
+  setCustomApiBaseUrl,
+  checkBackendHealth,
+} from "@/lib/api";
+import { useMerchant } from "@/lib/MerchantContext";
 
 interface MerchantSettingsModalProps {
   profile: MerchantProfile;
@@ -33,21 +43,70 @@ export function MerchantSettingsModal({
   profile,
   onSave,
 }: MerchantSettingsModalProps) {
+  const merchant = useMerchant();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<MerchantProfile>(profile);
   const [isSaved, setIsSaved] = useState(false);
+
+  // Cloud Run backend URL state
+  const [backendUrl, setBackendUrl] = useState<string>("");
+  const [testResult, setTestResult] = useState<{
+    tested: boolean;
+    ok: boolean;
+    message: string;
+  }>({ tested: false, ok: false, message: "" });
+  const [isTesting, setIsTesting] = useState(false);
 
   const handleOpen = (newOpen: boolean) => {
     setOpen(newOpen);
     if (newOpen) {
       setForm(profile);
       setIsSaved(false);
+      setBackendUrl(getApiBaseUrl());
+      setTestResult({ tested: false, ok: false, message: "" });
     }
+  };
+
+  const handleTestConnection = async () => {
+    setIsTesting(true);
+    setTestResult({ tested: false, ok: false, message: "" });
+    const res = await checkBackendHealth(backendUrl);
+    setIsTesting(false);
+    if (res.ok) {
+      setTestResult({
+        tested: true,
+        ok: true,
+        message: `✓ Connected to Cloud Run (${res.latencyMs}ms)`,
+      });
+    } else {
+      setTestResult({
+        tested: true,
+        ok: false,
+        message: `✗ Unreachable (${res.latencyMs}ms) - verify URL or allow CORS`,
+      });
+    }
+  };
+
+  const handleApplyBackendUrl = async () => {
+    setCustomApiBaseUrl(backendUrl);
+    await merchant.refreshConnection();
+    await handleTestConnection();
+  };
+
+  const handleResetBackendUrl = async () => {
+    setCustomApiBaseUrl("");
+    const defaultUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080").replace(/\/+$/, "");
+    setBackendUrl(defaultUrl);
+    await merchant.refreshConnection();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(form);
+    if (backendUrl !== getApiBaseUrl()) {
+      setCustomApiBaseUrl(backendUrl);
+      merchant.refreshConnection().catch(() => {});
+    }
     setIsSaved(true);
     setTimeout(() => {
       setOpen(false);
@@ -195,6 +254,95 @@ export function MerchantSettingsModal({
                   className="h-8 text-xs font-mono"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* Cloud Run Backend Service Connection Section */}
+          <div className="p-3 bg-muted/40 rounded-lg space-y-2.5 border border-border/70">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold flex items-center gap-1.5 text-foreground">
+                <IconServer size={14} className="text-primary" />
+                Backend API Connection (Cloud Run)
+              </span>
+              <span
+                className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border ${
+                  merchant.isBackendConnected
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30"
+                    : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30"
+                }`}
+              >
+                {merchant.isBackendConnected ? (
+                  <>
+                    <IconWifi size={10} /> Online
+                  </>
+                ) : (
+                  <>
+                    <IconWifiOff size={10} /> Offline
+                  </>
+                )}
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="backend_url" className="text-[11px] text-muted-foreground">
+                Target Service URL (e.g. Cloud Run or localhost)
+              </Label>
+              <div className="flex gap-1.5">
+                <Input
+                  id="backend_url"
+                  value={backendUrl}
+                  onChange={(e) => {
+                    setBackendUrl(e.target.value);
+                    setTestResult({ tested: false, ok: false, message: "" });
+                  }}
+                  placeholder="https://bottomup-api-xxx.a.run.app"
+                  className="h-8 text-xs font-mono flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleTestConnection}
+                  disabled={isTesting || !backendUrl.trim()}
+                  className="h-8 px-2.5 text-xs shrink-0"
+                >
+                  {isTesting ? <IconRefresh size={12} className="animate-spin" /> : "Test"}
+                </Button>
+              </div>
+            </div>
+
+            {testResult.tested && (
+              <div
+                className={`text-[11px] font-medium p-1.5 rounded-md border flex items-center justify-between ${
+                  testResult.ok
+                    ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30"
+                    : "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30"
+                }`}
+              >
+                <span>{testResult.message}</span>
+                {testResult.ok && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleApplyBackendUrl}
+                    className="h-6 px-1.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20"
+                  >
+                    Apply Now
+                  </Button>
+                )}
+              </div>
+            )}
+
+            <div className="flex items-center justify-between pt-0.5 text-[10px] text-muted-foreground">
+              <span>Allows judges to test any deployed Cloud Run URL directly.</span>
+              <button
+                type="button"
+                onClick={handleResetBackendUrl}
+                className="underline hover:text-foreground transition-colors"
+              >
+                Reset Default
+              </button>
             </div>
           </div>
 

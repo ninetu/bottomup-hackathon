@@ -2,16 +2,12 @@
 
 import React, { useMemo } from "react";
 import {
-  IconActivity,
   IconReceipt,
-  IconCloudRain,
   IconCoin,
   IconArrowRight,
   IconUsers,
-  IconTrain,
   IconToolsKitchen2,
   IconCheck,
-  IconSparkles,
 } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -48,7 +44,7 @@ export function LiveStage(props: LiveStageProps) {
     <div className="space-y-3 pb-3">
       {/* ──────────────────────────────────────────────────────────
           CARD 1: LIVE SHIFT DASHBOARD & SENSING TIMELINE
-          Top: Sales ฿280/฿465 | Customers 8 / ~25-35
+          Top: Sales ฿2,850 / ฿5,600 | Customers 57 / ~68-88
           Chart: Demand Sensing 3-Node Timeline matching /plan
           ────────────────────────────────────────────────────────── */}
       <div className="rounded-3xl bg-card border border-border/80 p-3.5 shadow-xs space-y-2.5">
@@ -62,8 +58,14 @@ export function LiveStage(props: LiveStageProps) {
             <Badge variant="outline" className="text-[10px] py-0 px-2 font-mono font-bold border-primary/30 text-primary">
               Plan: {activePlanName}
             </Badge>
-            <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-              ● Pacing
+            <span
+              className={`text-[10px] font-semibold flex items-center gap-1 ${
+                isPacingOnTrack
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-amber-600 dark:text-amber-400"
+              }`}
+            >
+              ● {isPacingOnTrack ? "Pacing On Track" : "Pacing Behind"}
             </span>
           </div>
         </div>

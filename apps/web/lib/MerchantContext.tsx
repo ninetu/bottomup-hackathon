@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import {
   DEFAULT_PROFILE,
   DEFAULT_PLAN_DATA,
@@ -18,6 +18,9 @@ import {
   fetchPlanScreen,
   fetchLiveScreen,
   fetchLearnScreen,
+  commitPlanToBackend,
+  recordSaleToBackend,
+  recordExpenseToBackend,
 } from "@/lib/api";
 
 function generateId(prefix: string) {
@@ -41,6 +44,7 @@ interface MerchantContextType {
   recordSale: (amount: number, customers: number, note: string) => void;
   recordExpense: (amount: number, note: string) => void;
   addTimelineItem: (item: TimelineItem) => void;
+  refreshConnection: () => Promise<boolean>;
 }
 
 const MerchantContext = createContext<MerchantContextType | null>(null);
@@ -54,15 +58,37 @@ export function MerchantProvider({ children }: { children: React.ReactNode }) {
   const [isBackendConnected, setIsBackendConnected] = useState(false);
   const [currentDate] = useState("2026-10-12");
 
+  const refreshConnection = useCallback(async () => {
+    const health = await checkBackendHealth();
+    setIsBackendConnected(health.ok);
+    if (health.ok) {
+      try {
+        const [prof, plan, live, learn] = await Promise.all([
+          fetchMerchantProfile(),
+          fetchPlanScreen("merchant_default", currentDate),
+          fetchLiveScreen("merchant_default", currentDate),
+          fetchLearnScreen("merchant_default", currentDate),
+        ]);
+        if (prof) setProfile(prof);
+        if (plan) setPlanData(plan);
+        if (live) setLiveData(live);
+        if (learn) setLearnData(learn);
+      } catch {
+        // fallback
+      }
+    }
+    return health.ok;
+  }, [currentDate]);
+
   useEffect(() => {
     let mounted = true;
 
     async function loadData() {
-      const isOnline = await checkBackendHealth();
+      const health = await checkBackendHealth();
       if (!mounted) return;
-      setIsBackendConnected(isOnline);
+      setIsBackendConnected(health.ok);
 
-      if (isOnline) {
+      if (health.ok) {
         try {
           const [prof, plan, live, learn] = await Promise.all([
             fetchMerchantProfile(),
@@ -129,6 +155,15 @@ export function MerchantProvider({ children }: { children: React.ReactNode }) {
         detail: `Spend budget ฿${plan.spend_budget} · Target ~${plan.serves_customers_min}–${plan.serves_customers_max} pax · Est. Sales ฿${plan.expected_sales_min}–฿${plan.expected_sales_max}`,
         badge: "Plan Selected",
       });
+
+      // Synchronize plan commitment to Cloud Run backend
+      commitPlanToBackend(
+        profile.merchant_id,
+        planId,
+        customPlan?.spend_budget,
+        customPlan?.serves_customers_min,
+        currentDate
+      ).catch(() => {});
     }
   };
 
@@ -192,6 +227,17 @@ export function MerchantProvider({ children }: { children: React.ReactNode }) {
       amount,
       badge: "Sale",
     });
+
+    // Synchronize sale to Cloud Run backend
+    recordSaleToBackend(
+      amount,
+      customers,
+      note || sender,
+      sender,
+      customerType,
+      profile.merchant_id,
+      currentDate
+    ).catch(() => {});
   };
 
   const recordExpense = (amount: number, note: string) => {
@@ -236,6 +282,14 @@ export function MerchantProvider({ children }: { children: React.ReactNode }) {
       amount: -amount,
       badge: "Expense",
     });
+
+    // Synchronize expense to Cloud Run backend
+    recordExpenseToBackend(
+      amount,
+      note,
+      profile.merchant_id,
+      currentDate
+    ).catch(() => {});
   };
 
   return (
@@ -253,6 +307,7 @@ export function MerchantProvider({ children }: { children: React.ReactNode }) {
         recordSale,
         recordExpense,
         addTimelineItem,
+        refreshConnection,
       }}
     >
       {children}

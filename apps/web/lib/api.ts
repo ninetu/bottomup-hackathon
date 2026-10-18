@@ -96,7 +96,32 @@ export interface TimelineItem {
   badge?: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+export function getApiBaseUrl(): string {
+  if (typeof window !== "undefined") {
+    const custom = localStorage.getItem("bottomup_api_url");
+    if (custom && custom.trim()) {
+      return custom.trim().replace(/\/+$/, "");
+    }
+  }
+  return (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080").replace(/\/+$/, "");
+}
+
+export function setCustomApiBaseUrl(url: string): void {
+  if (typeof window !== "undefined") {
+    if (url && url.trim()) {
+      localStorage.setItem("bottomup_api_url", url.trim().replace(/\/+$/, ""));
+    } else {
+      localStorage.removeItem("bottomup_api_url");
+    }
+  }
+}
+
+export function getCustomApiBaseUrl(): string | null {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("bottomup_api_url");
+  }
+  return null;
+}
 
 export const DEFAULT_TIMELINE_ITEMS: TimelineItem[] = [
   {
@@ -261,23 +286,26 @@ export const DEFAULT_LEARN_DATA: LearnScreenData = {
   },
 };
 
-// Check if backend is reachable
-export async function checkBackendHealth(): Promise<boolean> {
+// Check if backend is reachable (supports custom URL test)
+export async function checkBackendHealth(targetUrl?: string): Promise<{ ok: boolean; latencyMs: number; status?: string }> {
+  const base = targetUrl || getApiBaseUrl();
+  const startTime = Date.now();
   try {
-    const res = await fetch(`${API_BASE_URL}/health`, {
+    const res = await fetch(`${base}/health`, {
       method: "GET",
-      signal: AbortSignal.timeout(2000),
+      signal: AbortSignal.timeout(2500),
     });
-    return res.ok;
+    const latencyMs = Date.now() - startTime;
+    return { ok: res.ok, latencyMs, status: res.ok ? "healthy" : `HTTP ${res.status}` };
   } catch {
-    return false;
+    return { ok: false, latencyMs: Date.now() - startTime, status: "unreachable" };
   }
 }
 
 // Fetch merchant profile
 export async function fetchMerchantProfile(merchantId = "merchant_default"): Promise<MerchantProfile> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/merchant/${merchantId}`, {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}`, {
       signal: AbortSignal.timeout(3000),
     });
     if (res.ok) return await res.json();
@@ -290,7 +318,7 @@ export async function fetchMerchantProfile(merchantId = "merchant_default"): Pro
 // Fetch plan screen data
 export async function fetchPlanScreen(merchantId = "merchant_default", date = "2026-10-12"): Promise<PlanScreenData> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/merchant/${merchantId}/plan?date=${date}`, {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/plan?date=${date}`, {
       signal: AbortSignal.timeout(3000),
     });
     if (res.ok) return await res.json();
@@ -303,7 +331,7 @@ export async function fetchPlanScreen(merchantId = "merchant_default", date = "2
 // Fetch live screen data
 export async function fetchLiveScreen(merchantId = "merchant_default", date = "2026-10-12"): Promise<LiveActivityData> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/merchant/${merchantId}/live?date=${date}`, {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/live?date=${date}`, {
       signal: AbortSignal.timeout(3000),
     });
     if (res.ok) return await res.json();
@@ -316,7 +344,7 @@ export async function fetchLiveScreen(merchantId = "merchant_default", date = "2
 // Fetch learn screen data
 export async function fetchLearnScreen(merchantId = "merchant_default", date = "2026-10-12"): Promise<LearnScreenData> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/merchant/${merchantId}/learn?date=${date}`, {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/learn?date=${date}`, {
       signal: AbortSignal.timeout(3000),
     });
     if (res.ok) return await res.json();
@@ -324,6 +352,89 @@ export async function fetchLearnScreen(merchantId = "merchant_default", date = "
     // fallback
   }
   return DEFAULT_LEARN_DATA;
+}
+
+// Commit plan to backend
+export async function commitPlanToBackend(
+  merchantId = "merchant_default",
+  planId = "BALANCED",
+  customSpend?: number,
+  customPax?: number,
+  date = "2026-10-12"
+): Promise<{ status: string; message?: string }> {
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/plan/commit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        plan_id: planId,
+        custom_spend: customSpend,
+        custom_target_customers: customPax,
+        date,
+      }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) return await res.json();
+  } catch {
+    // offline graceful
+  }
+  return { status: "local_committed" };
+}
+
+// Record live sale to backend
+export async function recordSaleToBackend(
+  amount: number,
+  customers = 1,
+  note = "",
+  sender?: string,
+  customerType: "New" | "Regular" | "VIP" = "Regular",
+  merchantId = "merchant_default",
+  date = "2026-10-12"
+): Promise<{ status: string }> {
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/sale`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount,
+        customers,
+        note,
+        sender,
+        customer_type: customerType,
+        date,
+      }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) return await res.json();
+  } catch {
+    // offline
+  }
+  return { status: "local_recorded" };
+}
+
+// Record expense to backend
+export async function recordExpenseToBackend(
+  amount: number,
+  note = "",
+  merchantId = "merchant_default",
+  date = "2026-10-12"
+): Promise<{ status: string }> {
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/api/merchant/${merchantId}/expense`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount,
+        note,
+        date,
+      }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) return await res.json();
+  } catch {
+    // offline
+  }
+  return { status: "local_recorded" };
 }
 
 // Send conversational message to an agent stage (Plan, Live, Learn)
@@ -335,7 +446,7 @@ export async function sendAgentMessage(
   date = "2026-10-12"
 ): Promise<{ reply: string; session_id: string }> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/agent/${stage}/chat`, {
+    const res = await fetch(`${getApiBaseUrl()}/api/agent/${stage}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -354,29 +465,37 @@ export async function sendAgentMessage(
     // Return friendly simulated contextual response when offline
   }
 
-  // Realistic mock replies per stage
-  if (stage === "plan") {
-    if (message.toLowerCase().includes("rain")) {
-      return {
-        reply: "Based on Krung Thep Aphiwat weather, rain is forecast after 13:00 (60% probability). I recommend the **BALANCED** or **PROTECT CASH** plan to avoid ingredient waste in the afternoon.",
-        session_id: sessionId || "sim_plan_session",
-      };
-    }
+  // Realistic mock replies per stage for Auntie Ann (ป้าแอน หมูปิ้ง)
+  const lowerMsg = message.toLowerCase();
+  if (
+    lowerMsg.includes("ฝน") ||
+    lowerMsg.includes("rain") ||
+    lowerMsg.includes("3,000") ||
+    lowerMsg.includes("3000") ||
+    lowerMsg.includes("ลดงบ")
+  ) {
     return {
-      reply: `Good morning Somchai! With ฿500 available spend and rain after 13:00, the **BALANCED Plan** (฿220 spend, ~25–35 customers) gives the safest return while keeping ฿580 in your pocket.`,
+      reply: `(1) สภาพอากาศ: ช่วงเช้าฟ้าโปร่ง ฝนมีโอกาสตกเบาๆ (20%) หลัง 09:30 น. ช่วงพีครถไฟ 07:00–08:30 น. คนเดินทางเข้าสถานีหนาแน่น ขายได้เต็มที่\n(2) ลดงบเหลือ ฿3,000: เสี่ยงของเหลือต่ำมาก (แทบไม่เหลือทิ้ง) และเงินสำรอง ฿1,000 ปลอดภัย 100% แต่มีความเสี่ยงของหมดเร็วเกินไป ทำให้พลาดลูกค้าช่วงรถไฟพีค`,
+      session_id: sessionId || "sim_live_session",
+    };
+  }
+
+  if (stage === "plan") {
+    return {
+      reply: `สวัสดีค่ะป้าแอน! เช้านี้งบซื้อของ ฿5,000 แนะนำ **Smart Plan (฿3,400 หมู ~27กก.)** ดักจับผู้โดยสารรถไฟช่วง 07:00–08:30 น. ได้สมดุลที่สุด ปิดยอดได้ก่อนฝนโปรย 09:30 น. และเก็บเงินสดสำรอง ฿1,600 ไว้ปลอดภัยค่ะ`,
       session_id: sessionId || "sim_plan_session",
     };
   }
 
   if (stage === "live") {
     return {
-      reply: "You have served 8 customers for ฿280 (60.2% of target). Morning commuter traffic was solid. Afternoon rain is expected around 13:00, so hold off preparing a third chicken batch until 12:30 demand is clear.",
+      reply: `ป้าแอนขายไปแล้ว 57 คน ได้ยอด ฿2,850 (51% ของเป้าหมาย ฿5,600) กำลังอยู่ในเกณฑ์ดีมากค่ะ! หลัง 08:30 น. คนเริ่มซา แนะนำย่างหมูเตาสุดท้ายอีกแค่ 15–20 ไม้ เพื่อปิดร้านตอน 09:30 น. โดยไม่มีของเหลือทิ้งค่ะ`,
       session_id: sessionId || "sim_live_session",
     };
   }
 
   return {
-    reply: "Great closing today! Your net profit is +฿270 and your ฿300 emergency reserve remained untouched. For tomorrow, clear skies are expected; I recommend spending between ฿200 and ฿280 at the morning market.",
+    reply: `ปิดร้านยอดเยี่ยมค่ะป้าแอน! วันนี้กำไรสุทธิ +฿2,200 และเงินสำรอง ฿1,000 ปลอดภัย 100% พรุ่งนี้ท้องฟ้าแจ่มใส 0% ฝน แนะนำเตรียมงบ ฿3,200–฿5,000 ขยายรับลูกค้าได้ถึง 70–120 คนค่ะ`,
     session_id: sessionId || "sim_learn_session",
   };
 }
