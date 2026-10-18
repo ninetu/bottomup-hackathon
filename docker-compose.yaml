@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: bottomup-api
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GOOGLE_GENAI_USE_ENTERPRISE=${GOOGLE_GENAI_USE_ENTERPRISE:-0}
+    env_file:
+      - path: ./apps/api/.env
+        required: false
